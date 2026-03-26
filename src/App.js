@@ -142,12 +142,38 @@ Items: ${items}
 Total: ₹${totalPrice}`;
 
   const sendOrder = () => {
-    setOrder({ name: "", phone: "", address: "", branch: "Tamluk" });
-    
-    setShowOrderForm(false);
-    alert("Order sent to WhatsApp! 📱");
-  };
 
+    //Validation
+     if (!order.name || !order.phone || !order.address) {
+    alert("Please fill all details");
+    return;
+  }
+
+    if (!/^\d{10}$/.test(order.phone)) {
+    alert("Enter valid 10-digit phone number");
+    return;
+  }
+
+const message = `New Order:
+Name: ${order.name}
+Phone: ${order.phone}
+Address: ${order.address}
+Branch: ${order.branch}
+
+Items: ${items}
+Total: ₹${totalPrice}`;
+
+  const whatsappNumber = "9337602150"; // your number
+
+  const url = `https://wa.me/${9337602150}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank");
+
+  setOrder({ name: "", phone: "", address: "", branch: "Tamluk" });
+  setShowOrderForm(false);
+};
+
+ 
 
   const submitOrder = (e) => {
   e.preventDefault();
@@ -446,6 +472,18 @@ Total: ₹${totalPrice}`;
       </div>
     ))
   )}
+</div>
+
+
+ <div className="order-form">
+  <input type="text" placeholder="Name" />
+  <input type="text" placeholder="Phone" />
+  <input type="text" placeholder="Address" />
+
+ 
+  <button onClick={sendOrder}>
+    Place Order 🚀
+  </button>
 </div>
 
 
